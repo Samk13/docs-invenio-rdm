@@ -115,13 +115,18 @@ nav:
           - Overview: "operate/customize/configuration.md"
           - Audit logs: "operate/customize/audit-logs.md"
           - Authentication: "operate/customize/authentication.md"
+          - Curation checks: "operate/customize/curation-checks.md"
+          - Collections: "operate/customize/collections.md"
+          - Compliance info when publishing: "operate/customize/compliance_info.md"
           - DOI registration: "operate/customize/dois.md"
           - DNB URN registration: "operate/customize/dnb_urns.md"
           - Emails:
               - Submission: "operate/customize/emails.md"
               - Capture: operate/customize/dev_email.md
-          - File uploads:
+          - FAIR Signposting: "operate/customize/FAIR-signposting.md"
+          - File uploads & storage:
               - Files uploaders: "operate/customize/file-uploads/uploader.md"
+              - Local storage: "operate/customize/file-uploads/local.md"
               - S3 compatible storage: "operate/customize/file-uploads/s3.md"
               - Upload limits: "operate/customize/file-uploads/upload_limits.md"
           - Jobs: "operate/customize/jobs.md"
@@ -179,6 +184,7 @@ nav:
           - Records: maintenance/architecture/records.md
           - Communities: maintenance/architecture/communities.md
           - Requests: maintenance/architecture/requests.md
+          - Curation: maintenance/architecture/curation.md
           - Event handling: maintenance/architecture/event_handling.md
           - Notifications: maintenance/architecture/notifications.md
           - Recommended reading: maintenance/architecture/reading.md
@@ -199,6 +205,7 @@ nav:
           - Notifications: maintenance/internals/notifications.md
           - Audit logs: maintenance/internals/audit-logs.md
           - Job system: maintenance/internals/jobs.md
+          - System Fields: maintenance/internals/systemfield.md
       - Operational tasks:
           - Release management: maintenance/operations/release-management.md
           - Branch management: maintenance/operations/branch-management.md
@@ -262,6 +269,7 @@ nav:
           - Invenio-cli commands: reference/cli.md
           - Invenio commands: reference/cli_invenio.md
       - Metadata: reference/metadata.md
+      - Checks config schema: reference/checks_config.md
       - OAI-PMH: reference/oai_pmh.md
       - REST API:
           - Overview: "reference/rest_api_index.md"
@@ -269,7 +277,7 @@ nav:
           - Awards: "reference/rest_api_awards.md"
           - Communities: "reference/rest_api_communities.md"
           - Drafts and Records: "reference/rest_api_drafts_records.md"
-          - File storage: "reference/file_storage.md"
+          - File transfer: "reference/file_transfer.md"
           - Funders: "reference/rest_api_funders.md"
           - Groups: "reference/rest_api_groups.md"
           - Members: "reference/rest_api_members.md"

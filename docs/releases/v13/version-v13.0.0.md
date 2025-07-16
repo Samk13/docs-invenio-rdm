@@ -1,8 +1,8 @@
 # InvenioRDM v13.0
 
-_Draft_
+_2025-07-21_
 
-_DATE_
+We're happy to announce the release of InvenioRDM v13.0! Version 13 will be maintained until at least 6 months following the next release. Visit our maintenance policy page to learn more.
 
 ## Try it
 
@@ -11,52 +11,9 @@ _DATE_
 - [Installation instructions](../../install/index.md)
 
 ## What's new?
-
-to complete
-
-_TODO_: the quota feature has not been documented. It should be added, with a screenshot of the admin panel.
-
-### Jobs and ORCID/ROR
-
-TODO
-**Document the introduction of jobs and link it to the doc. Document in the upgrade notes to add the new scheduler for jobs**
-
-
-
-We have upgraded to ROR version 2.0 and enhanced the metadata to include
-organization aliases, status, types, locations, and acronym. It should be
-easier to find the correct organization or funder you're looking for.
-
-We have also enabled ROR updating using invenio-jobs, which lets you
-automatically load the funders or affiliations vocabulary from the
-InvenioRDM administration panel. You can also schedule to update your
-vocabulary with new ROR releases on a regular schedule. You can find more
-instructions on the [affiliations](../../operate/customize/vocabularies/affiliations.md)
-and [funders](../../operate/customize/vocabularies/funding.md) documentation pages.
-
-Explain about the new jobs feature, logging and ORCID/ROR jobs.
-
-Related [new doc page](../../operate/customize/vocabularies/names.md#using-orcid-public-data-sync).
-
-### Search improvements
-
-Both user and record search have been enhanced to return more accurate results for common names/titles, partial matches (even with typos) and names/titles with accents or diacritics.
-
-Creators, affiliations and funders autocomplete search has been enhanced so that suggestions appear faster and better match what you type.
-
-See [breaking changes](#breaking-changes) for notes about the mapping changes and the new indices.
-
-### Names Vocabulary
-
-TODO
-Names listing endpoint is now restricted to authenticated users, names can be "unlisted" not showing anymore in the search result for non-admin users
-
-### Optional DOI
-
-DOIs can now be configured as optional. Describe the feature.
+Our latest release, v13, is here, and it's packed with an incredible array of new features and major improvements. We're diving straight into the highlights, then wrapping up with a comprehensive list of all the other valuable enhancements.
 
 ### Administration panel
-
 You'll find several new improvements in the administration panel:
 
 - The default number of results of has been increased from 10 to 20 on all panels
@@ -69,10 +26,8 @@ You'll find several new improvements in the administration panel:
     - ORCID and GitHub icons now link to the user's profile
 
 #### Compare revisions
-
 The new `Compare Revisions` feature allows administrators to audit record updates and follow changes over time.
-
-From the **Records** list, click the **“Compare revisions…”** button in the _Actions_ column to open a side-by-side comparison window:
+From the **Records** list in the Administration panel, click the **Compare revisions...** button in the _Actions_ column to open a side-by-side comparison window:
 
 ![Records List: Compare Revisions](./imgs/records.png)
 
@@ -88,206 +43,189 @@ The changes are then displayed in a JSON **side-by-side diff** view:
 
     This feature allows admins to compare revisions, not versions. A revision is the result of editing a record, where each published edit creates a new revision. A new version is a different record which is semantically linked to the previous record. At this time it is not possible to compare different records, including versions.
 
-### New Metadata Fields
-
-There is a new field called copyright for copyright information, [specification
-available here](../../reference/metadata.md). This field will require
-reindexing upon the version upgrade.
-
-There are new thesis metadata fields including department, type,
-date_submitted, date_defended. thesis:university had been moved to
-university inside of the thesis:thesis section, alongside the other new fields.
-
-There is a new edition field under imprint.
-
-### Requests sharing
-
-When a record is shared, its inclusion requests will be also accessible. There is a new filter in the My Dashboard to show the records shared with me.
-
 ### Audit logs
-
 InvenioRDM now comes with a new audit logs feature. See the [related documentation here](../../operate/customize/audit-logs.md).
 
 ![Administration Panel](../../operate/customize/imgs/audit-logs.png)
 
 ### Communities
+InvenioRDM v13 introduces a range of exciting new features related to communities.
+
+!!! info
+    Such features currently lack a user-friendly interface for easy configuration and require manual setup. Please refer to the linked documentation for detailed activation instructions.
 
 #### Themed communities
-
 Communities can now have their own theming with a custom font and colors, which apply to all community pages including records and requests. Below is an example of one "default" and two themed communities on Zenodo.
 
 ![A default community and two themed communities on Zenodo](imgs/themed-communities.png)
 
-Themed communities benefit from a custom homepage, defined via HTML template in `<instance>/templates/themes/<theme>/invenio_communities/details/home/index.html`.
+Themed communities benefit from a custom homepage, defined by changing its HTML template.
+
+Read more about the [themes communities feature](../../operate/customize/look-and-feel/themed_communities.md).
 
 #### Subcommunities
-
 It is now possible to create hierarchical relationships between communities, allowing for departments, subject areas and other structures to be represented via related communities. Records from the "child" community are automatically indexed in the "parent" community, allowing all the records of the children to be browsed in the parents. The communities are also bidirectionally linked so that it is easy to navigate between both.
 
 Having subcommunities also enables the **Browse** page, which lists all the subcommunities and [collections](#collections) of that community.
 
 !!! note
-
-    Currently communities can only have one level of hierarchy (i.e., no grand-child communities) and communities can only have one parent community.
+    By design, communities can only have one level of hierarchy (i.e., no grand-child communities) and communities can only have one parent community.
 
 #### Collections
+Collections introduce a powerful new way to organize and curate records within your InvenioRDM instance. This major feature enables administrators to create dynamic, query-based groupings of records that automatically stay current as new content is added.
 
-Collections are a "big" feature added to v13.
+![Collection page displaying filtered Mathematics records under a nested subject hierarchy](imgs/collection-page.png)
+/// caption
+Collections provide dedicated pages showing all records matching specific criteria.
+///
 
-!!! warning
+**Hierarchical organization**
+Collections allow you to define hierarchical groupings of records, enabling users to browse content by subject, resource type, funding program, or any other metadata field.
 
-    Collections require new database tables, therefore its migration recipes must be executed (`invenio db upgrade` or similar).
+![Community "Browse" tab showing hierachical collections based on subjects](imgs/collection-browse.png)
+/// caption
+The collection browser provides an organized view of all available collections within a community.
+///
 
-A collection serves as a curated set of records that are grouped based on a specific filter or query, displayed on a dedicated page, introducing a new way of organizing records within a community. For instance, a collection can be defined within a community to highlight records sharing common attributes, like funding programs or specific categories.
+**Common use cases**
+- Group content by research disciplines using a hierarchical vocabulary
+- Organize historical records by publication date
+- Organize records by funding programs (Horizon 2020, NSF, institutional grants)
+- Create resource type collections (datasets, publications, software)
+- Highlight featured content or special collections
 
-Collections are stored in the Database and each collection defines a search query string that is used to fetch each collection records. Find more information in the [RFC](https://github.com/inveniosoftware/rfcs/blob/master/rfcs/rdm-0079-collections.md).
+Collections integrate seamlessly with existing community features and are accessed through intuitive URLs. The feature is currently managed through Python shell commands, with an administrator user interface planned for future releases.
 
-**How to create a collection for a community**
+Read more about the [Collections feature](../../operate/customize/collections.md).
 
-Currently collections are created using a python shell (`invenio shell`)
+### Curation checks
+It is now possible to configure automated **checks** in your communities to provide instant feedback on draft review and record inclusion requests. Checks provide feedback to both the user and reviewer that submissions to your community are compliant with your curation policy. For example, you can enforce that submissions to your community must be preprints, funded by a specific grant or any other requirement on the metadata or files.
 
-Requirements:
+![Curation checks enabled in Zenodo](../../operate/customize/imgs/curation-checks-zenodo.jpg)
+/// caption
+Curation checks in Zenodo's EU Open Research Repository
+///
 
-- A community.
-- A collection tree that acts as the "root" node of the collection.
+Read the detailed documentation for [Curation checks](../../operate/customize/curation-checks.md).
 
-If you do not have a collection tree, start by creating one:
+### Customizable compliance info when publishing
+You can now fully customize the compliance information and checkboxes that users must acknowledge when publishing a record. This makes it easy to tailor the publishing workflow to your organization's policies or legal requirements.
 
-```python
-from invenio_collections.api import CollectionTree
+![Publish modal with extra checkbox](../../operate/customize/imgs/compliance_checkboxes.png)
 
-ctree = CollectionTree.create(
-    title="Programs", order=10, community_id="<community_uuid>", slug="programs"
-)
-```
+See the configuration options in the [related documentation](../../operate/customize/compliance_info.md).
 
-The `order` parameter controls the order that trees are rendered in the UI.
+### DOIs on demand
+You can now let users to choose if they need a DOI or not when uploading. See how to configure it in the [related documentation](../../operate/customize/dois.md#optional-doi-user-interface-and-advanced-configuration).
 
-Create a collection under `programs`:
+![DOIs on demand](../../operate/customize/imgs/dois-on-demand.jpg)
 
-```python
-from invenio_collections.proxies import current_collections
-from invenio_access.permissions import system_identity
+### Extra PIDs schemes
+InvenioRDM v13 allows you to extend the list of existing schemes for persistent identifiers to detect, validate and add support for your owns.
 
-collections_service = current_collections.service
-
-# Use another identity if needed
-identity = system_identity
-
-# Desired community ID
-community_id = "9d0d45ce-0ea9-424a-ab17-a72215b2e8c3"
-
-collection = collections_service.create(
-        identity,
-        community_id,
-        tree_slug="programs",
-        slug="h2020",
-        title="Horizon 2020",
-        query="metadata.funding.program:h2020",
-        order=10
-    )
-```
-
-For nested collections, the `add` service method can be used:
-
-```python
-
-h2020 = collections_service.read(
-    identity, community_id=community_id, tree_slug='programs', slug='h2020'
-)
-
-open_records = collections_service.add(
-        identity,
-        collection=h2020._collection,
-        slug="h-open-records",
-        title="Horizon 2020 (Open records)",
-        query="access.record:public",
-        order=20
-    )
-```
-
-All the service methods that create collections also implements the Unit of Work pattern, so it can used if transactional consistency is needed.
-
-The created collections can be accessed at:
-
-- https://127.0.0.1:5000/communities/<community_slug>/collections/h2020
-- https://127.0.0.1:5000/communities/<community_slug>/collections/h-open-records
-
-Adjust the URL and `community_slug` as needed.
-
-An overview of all the collections can be found in the community browse page (if enabled):
-
-- https://127.0.0.1:5000/communities/<community_slug>/browse
-
-### Helm charts
-
-To be announced?
-
-### FAIR signposting level 1
-
-In order to increase discoverability, [FAIR signposting level 1](https://signposting.org/FAIR/#level1) can be enabled with the configuration flag `APP_RDM_RECORD_LANDING_PAGE_FAIR_SIGNPOSTING_LEVEL_1_ENABLED = True`. Once enabled, FAIR signposting information will be directly included in the `Link` HTTP response header.
-
-[FAIR signposting level 2](https://signposting.org/FAIR/#level2) was already enabled by default since v12. The response header of each record's landing page includes a `Link` header pointing to a JSON-based linkset which contains the FAIR signposting information.
-
-Please note that for records having many authors, files, or licenses, FAIR signposting will fall back to level 2 only, in order to avoid generating excessively big HTTP response headers.
-
-However, since enabling FAIR signposting level 1 does increase the size of HTTP response headers, it is recommended to edit the `nginx` configuration and specify [`uwsgi_buffer_size`](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_buffer_size) with a higher limit than the default values. If you have enabled `uwsgi_buffering on;`, then [`uwsgi_buffers`](https://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_buffers) may also be adjusted.
-
-```nginx
-server {
-   # ...
-   # Allow for larger HTTP response headers for FAIR signposting level 1 support
-   uwsgi_buffer_size 16k;
-   # optional if uwsgi_buffering on;
-   uwsgi_buffers 8 16k;
-
-   # ...
-}
-```
-
-### Custom schemes for persistent identifiers
-
-The Invenio [idutils](https://github.com/inveniosoftware/idutils) module handles validation and normalization of persistent identifiers used in scholarly communication, and existing customizations may be affected by changes in v13.
-The library has been restructured to use a configurable scheme system with a new entrypoint mechanism for registering custom identifier schemes.
+![Extra PID schemes](../../operate/customize/metadata/imgs/custom_pids_schemes.jpg)
 
 See the [related documentation](../../operate/customize/metadata/custom_pids_schemes.md) how to add your own custom schemes.
 
-### Miscellaneous additions
+Under the hood, the Invenio [idutils](https://github.com/inveniosoftware/idutils) module handles validation and normalization of persistent identifiers used in scholarly communication, and existing customizations may be affected by changes in v13. The module has been restructured to use a configurable scheme system with a new entrypoint mechanism for registering your own identifier schemes.
 
+### FAIR Signposting
+With v13, you can now enable support for FAIR Signposting level 1 and 2. See [the related documentation](../../operate/customize/FAIR-signposting.md) for more information.
+
+### Files uploader & S3-compatible storage
+The new file uploader, powered by Uppy (disabled by default), delivers a faster, more intuitive, and modern file upload experience. It also enables advanced features such as **multipart file transfers** with **S3-compatible** storage backends.
+
+Learn more about [file uploaders](../../operate/customize/file-uploads/uploader.md), [S3-compatible storage](../../operate/customize/file-uploads/s3.md), and [file transfers](../../reference/file_transfer.md)
+
+### Jobs
+This release introduces a new Jobs feature, providing a comprehensive way to manage asynchronous tasks via the UI or REST API. Jobs are triggered via the admin UI or REST API, run using Celery, and support logging, argument validation, and result tracking. See the related documentation [here](../../operate/ops/jobs/jobs.md).
+
+#### ORCID and ROR integrations
+You can now setup jobs to automatically and recurrently fetch ORCID and ROR latest databases.
+
+For ORCID, read more on the [names vocabulary](../../operate/customize/vocabularies/names.md#using-orcid-public-data-sync) documentation page.
+
+With the ROR job, you can automatically load funders or affiliations vocabulary from the InvenioRDM administration panel, and schedule updates with new ROR releases. Instructions can be found on the [affiliations vocabulary](../../operate/customize/vocabularies/affiliations.md) documentation page.
+We have also upgraded the integration with ROR to version 2.0 and enhanced the metadata to include organization aliases, status, types, locations, and acronyms, making it easier to find the correct organization or funders.
+
+#### EuroSciVoc subjects
+You can now import [EuroSciVoc subjects](https://op.europa.eu/en/web/eu-vocabularies/euroscivoc) using the new Jobs system. If you previously had imported EuroSciVoc subjects, you will need to update the existing records, drafts, and communities that were using these subjects and then deleting the old subjects in the database. This is necessary due to changes in the structure, such as the introduction of the `props` property and updates to the `id` format.
+
+_Note that search mapping updates are needed. Also, you would need to reindex the relevant subjects, records, drafts and communities._
+
+#### CORDIS awards
+CORDIS data can now be imported to enhance OpenAIRE awards using the new Jobs system. This update allows for the addition of supplementary information to the awards, including subjects _(Note: The EuroSciVoc subjects are needed for this)_, organizations, and other related metadata. The three funding programs supported are `HE`, `FP7` and `H2020`.
+
+_Note that search mapping updates are needed. Also, you would need to reindex the relevant awards, records, drafts and communities._
+
+### New metadata fields
+We have introduced new metadata fields that will allow you to capture more useful information when uploading:
+
+- A dedicated **copyright** field is now available, ensuring clear and comprehensive copyright information.
+- We've added new **thesis** add-on set of fields. We've also reorganized the thesis section, grouping thesis fields together. See [here](../../operate/customize/metadata/optional_fields.md) how to enable them.
+- The **edition** field has been introduced under the `imprint` add-on set of fields, providing a way to specify the edition of the book.
+- A new **identifiers** field, composed of `id` and `scheme`, has been added to the `meeting` add-on set of fields.
+
+### PDF preview upgrade
+The v13 release features an upgraded PDF previewer, now powered by [PDF.js v4](https://github.com/mozilla/pdf.js). This update resolves previous issues with failed previews for certain PDF files, providing a more reliable and seamless viewing experience.
+
+### Requests sharing
+When a record is shared, the review request is now also accessible. We have introduced a new search filter in `My Dashboard`, to easily find records shared with me.
+
+![Shared with me](./imgs/my-dashboard-shared-with-me.jpg)
+
+### Search improvements
+Both users and records search have been enhanced to return more accurate results for common names/titles, partial matches (even with typos) and names/titles with accents or diacritics.
+
+Creators, affiliations and funders autocompletion has been improved so that suggestions appear faster and better match what you type.
+
+### Sitemaps
+InvenioRDM v13 introduces the automatic generation of sitemaps to help search engines and other crawlers discovering and indexing your repository's content. Sitemaps are even automatically linked in your `robots.txt`.
+
+See the [related documentation](../../operate/customize/sitemaps.md) to learn how to configure it.
+
+### Miscellaneous additions
 Here is a quick summary of the myriad other improvements in this release:
 
-- The creators' roles are now displayed [PR](https://github.com/inveniosoftware/invenio-app-rdm/pull/2795)
-- You can now see and show the version of InvenioAppRDM and any other module [Issue](https://github.com/inveniosoftware/invenio-app-rdm/issues/2838)
-  Change the config ADMINISTRATION_DISPLAY_VERSIONS = [("invenio-app-rdm", f"v{__version__}")] and append to the list the version you want to display.
-- The users API endpoint is now protected, in order to access the list of users it's required to be logged in.
-- Custom awards: relaxed required fields (see [PR](https://github.com/inveniosoftware/invenio-vocabularies/pull/429))
-- The configuration flags that control the visibility of menu items in the administration panel have been removed, and they are now visible by default. You can remove such flags from your configuration file (if existing) or leave them there, they will have no effect. Removed flags:
-  - `COMMUNITIES_ADMINISTRATION_DISABLED`
-  - `USERS_RESOURCES_ADMINISTRATION_ENABLED`
-  - `JOBS_ADMINISTRATION_ENABLED`
+- The creators' roles are now displayed in the record's landing page:
+  ![Creators roles](imgs/creators-roles.jpg)
+- You can now optionally display the installed version of InvenioRDM and any other module in the bottom left corner of the administration panel:
+  ![InvenioRDM Version label](imgs/inveniordm-version.jpg)
+  By default, the released version will be displayed. You can customize it by changing in your `invenio.cfg`:
+  ```python
+  ADMINISTRATION_DISPLAY_VERSIONS = [
+    ("invenio-app-rdm", f"v{__version__}"),
+    ("my-module", "v5.3.1")
+  ]
+  ```
+  You can also disable this feature by setting the config variable to `None`.
+- The users API endpoint `/api/users` permission has been changed from anonymous access to **login required**.
+- The custom award required fields are now more flexible: either the award `number` or `title` is required, instead of mandating both.
+- Previous configuration flags that controlled the visibility of menu items in the administration panel have been removed, as they are not used anymore. You can safely remove these flags from your `invenio.cfg` (if they exist); Removed flags:
+    - `COMMUNITIES_ADMINISTRATION_DISABLED`
+    - `USERS_RESOURCES_ADMINISTRATION_ENABLED`
+    - `JOBS_ADMINISTRATION_ENABLED`
 - Following the [latest COUNTER spec](https://www.countermetrics.org/code-of-practice/), the [list of robots and machines](https://github.com/inveniosoftware/counter-robots) have been updated to ensure the stats are counted on human usage.
-- Logging: The Flask root logger level has been set to `DEBUG`, enabling all log messages to pass through by default. Handlers are now responsible for filtering messages at the desired level, offering more flexibility for development and production environments.
-- [Sitemaps](../../operate/customize/sitemaps.md) are now generated for search engines and other crawlers to discover and index important content (records and communities by default, but customizable). Sitemaps are even automatically linked in your `robots.txt` for ease of discoverability by machine agents.
+- Logging: the Flask root logger level has been changed from `undefined` to `DEBUG`. This enables all log messages to pass through by default, instead of being blocked. If you have implemented custom logging handlers, ensure that you have defined the logging level and verify your logging verbosity in deployed environments to avoid excessive logs.
+- The issue related to storage quota per record for a given user has been solved. You can now define different storage quotas per record.
+- InvenioRDM v13 introduces the `generator` HTML `meta` tag to identify the repository technology. This is used by services like [OpenDOAR](https://opendoar.ac.uk/) to correctly catalog open access repositories.
+  The generator string will be `InvenioRDM v13.0`. You can change it in your `invenio.cfg` by overriding the variable `THEME_GENERATOR` or setting it to `None` to disable the meta tag.
+- MathJax: when enabled, it will now render mathematical formulas also in the landing page citation box, search results and request's comments pages.
 - ...and many more bug fixes!
 
 ## Breaking changes
-
-- Direct imports of identifier schemes (e.g., from idutils.isbn import normalize_isbn) are now deprecated and will be removed in future versions. If you have custom code that directly imports scheme modules, you'll need to update it to use the new API.
-
-## Limitations and known issues
-
-- fill me in
+- The upgrade of the PDF previewer requires a small change to the webserver configuration. See the [upgrade guide](upgrade-v13.0.md) for more information.
+- The new search improvements and the enhanced subjects and awards features require the recreation of the search mappings for Subjects, Awards, Records _(including percolators)_, Drafts and Communities.  See the [upgrade guide](upgrade-v13.0.md) for more information.
+- Direct Python imports of identifier schemes (e.g., `from idutils.isbn import normalize_isbn`) are now deprecated and will be removed in future versions. If you have custom code that directly imports scheme modules, you'll need to update it to use the new API.
 
 ## Requirements
 
-InvenioRDM v13 now supports:
+InvenioRDM v13 supports:
 
-- Python 3.9, 3.11 and 3.12
+- Python 3.9 (end of life October 2025), 3.11 and 3.12
 - Node.js 18+
 - PostgreSQL 12+
 - OpenSearch v2
-
-Notably, older versions of Elasticsearch/Opensearch, PostgreSQL, and Node.js have been phased out.
 
 ## Upgrading to v13.0
 
@@ -299,14 +237,68 @@ If you have questions related to these release notes, don't hesitate to jump on 
 
 ## Credit
 
-The development work of this impressive release wouldn't have been possible without the help of these great people:
+The development work of this impressive release wouldn't have been possible without the help of these great people (name or GitHub handle, alphabetically sorted):
 
-- CERN: Alex, Anna, Antonio, Javier, Jenny, Karolina, Lars, Manuel, Nicola, Pablo G., Pablo P., Zacharias
-- Northwestern University: Guillaume
-- TU Graz: Christoph, David, Mojib
-- TU Wien: Max
-- Uni Bamberg: Christina
-- Uni Münster: Werner
-- Front Matter: Martin
-- KTH Royal Institute of Technology: Sam
-- Caltech: Tom
+- Adrian Moennich
+- alejandromumo
+- Alex Ioannidis
+- Alzbeta Pokorna
+- Anika Churilova
+- Austin
+- Brian Kelly
+- Carlin MacKenzie
+- Christoph Ladurner
+- Cristian Pogolsha MBP
+- Dan Granville
+- David Eckhard
+- David Glueck
+- ducica
+- Eduard Nitu
+- Emil Dandanell Agerschou
+- enitu
+- Eric Newman
+- Eric Phetteplace
+- Esteban J. G. Gabancho
+- Fatimah Zulfiqar
+- Felipe Carlos
+- Florian Gantner
+- Furkan Kalkan
+- furkankalkan
+- Gantner, Florian Klaus
+- Guillaume Viger
+- Hrafn Malmquist
+- Ian W. Scott
+- Janne Jensen
+- Javier Romero Castro
+- Karl Krägelin
+- Karolina Przerwa
+- libremente
+- liptakpanna
+- Martin Fenner
+- Martin Obersteiner
+- Matt Carson
+- Max
+- Maximilian Moser
+- mb-wali
+- Michael Groh
+- Mirek Simek
+- Miroslav Bauer
+- mkloeppe
+- Nicola Tarocco
+- Pablo Panero
+- Pablo Saiz
+- Pablo Tamarit
+- Panna Liptak
+- phette23
+- psaiz
+- rekt-hard
+- roll
+- Saksham Arora
+- Sam Arbid
+- Sarah Wiechers
+- Tom Morrell
+- utnapischtim
+- Werner Greßhoff
+- Will Riley
+- Yash Lamba
+- Zacharias Zacharodimos
