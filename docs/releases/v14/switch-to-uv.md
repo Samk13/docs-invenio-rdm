@@ -250,15 +250,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     UV_LINK_MODE=copy \
     # Use the system's Python installation instead of uv managing Python versions
     UV_NO_MANAGED_PYTHON=1 \
-    UV_SYSTEM_PYTHON=1 \
-    UV_PROJECT_ENVIRONMENT=/usr/ \
     UV_PYTHON_DOWNLOADS=never \
     # Require and verify package hashes match those in the lock file
     UV_REQUIRE_HASHES=1 \
     UV_VERIFY_HASHES=1
-
-# Copy uv binary from official image
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # First sync: install only external dependencies without workspace packages
 RUN --mount=type=cache,target=/opt/.cache/uv \
